@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8">
+        <title>word endding game</title>
+        <style>
+            .word-ending-container {
+                margin: 0 auto;
+                text-align: center;
+                background-color: rgb(173, 173, 241);
+                width: 50%;
+                height: 500px;
+            }
+            .word-ending-container p {
+                padding-top: 70px;
+                color: yellow;
+                font-size: 30px;
+            }
+            .word-ending-container .prev-word {
+                font-size: 30px;
+                color: white;
+                padding-bottom: 40px;
+
+            }
+            .time-container {
+                padding-bottom: 40px;
+                color: red;
+                font-size: 60px;
+            }
+            .input-word {
+                font-size: 30px;
+                width: 200px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="word-ending-container">
+            <p>Word Endding Game!</p>
+            <div class="time-container">시간</div>
+            <div class="prev-word">이전 단어</div>
+            <div class="input-container">
+                <input class="input-word" type="text" onChange="updateWord(this.value)">
+            </div>
+        </div>
+
+        <script>
+            const words = ["제시어: 자동차", "제시어: 선풍기", "제시어: 고양이", "제시어: 강아지", "제시어: 자전거"];
+            const index = Math.floor(Math.random() * 5); 
+            let word = words[index];
+            let timeCount = 5;
+            const prevWord = document.querySelector(".prev-word");
+            const time = document.querySelector(".time-container");
+            const input = document.querySelector(".input-word");
+           
+
+            prevWord.innerHTML = word;
+            time.innerHTML = timeCount;
+
+            const tick = () => {             
+                time.innerHTML = timeCount;
+                if(timeCount === 0) {
+                    clearInterval(start);   
+                    alert("Game Over");
+                }else{
+                    timeCount -= 1;
+                }
+            };
+            const start = setInterval(tick, 1000); 
+
+            const updateWord = value => {
+                const lastPrev = word[word.length - 1];
+                const firstNext = value[0];
+                if(value.length === 3 && lastPrev === firstNext){
+                    word = value;
+                    prevWord.innerHTML = word;
+                    timeCount = 5;
+                    primaryInput();
+                }else{
+                    warningInput();
+                }
+                input.value = "";
+            };
+            const warningInput = () => {
+                input.style.outline = "1px solid red";
+            };
+            const primaryInput = () => {
+                input.style.outline = "1px solid blue";
+            };
+        </script>
+    </body>
+</html>
